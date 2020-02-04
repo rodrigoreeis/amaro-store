@@ -1,4 +1,4 @@
-# Challenge Amaro!!
+# Amaro Store!!
 
 
 ### Installing
