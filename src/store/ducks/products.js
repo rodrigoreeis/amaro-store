@@ -108,7 +108,7 @@ export const Creators = {
     return async dispatch => {
       dispatch(Creators.initGetProducts());
       const endpoint =
-        'http://www.mocky.io/v2/5e4020c63300006300b04d45';
+        'https://www.mocky.io/v2/5e4020c63300006300b04d45';
       try {
         const response = await Axios.put(endpoint);
         const { data } = response;
