@@ -1,4 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+import {
+  disableBodyScroll,
+  enableBodyScroll,
+} from 'body-scroll-lock';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -23,6 +28,7 @@ const Overlay = ({
   quickViewActions,
   minicartActions,
 }) => {
+  const [targetElement, setTargetElement] = useState(null);
   const { toggleFilter } = filterActions;
   const { toggleOverlay, overlayToolBar } = overlayActions;
   const { toggleQuickView, sizeProductQuickView } = quickViewActions;
@@ -36,6 +42,13 @@ const Overlay = ({
     sizeProductQuickView(false);
     overlayToolBar(false);
   };
+
+  useEffect(() => {
+    setTargetElement(document.querySelector('body'));
+    return toggle || toolbar
+      ? disableBodyScroll(targetElement)
+      : enableBodyScroll(targetElement);
+  }, [toggle || toolbar]);
   return (
     <div
       className={`am-overlay ${className} ${
