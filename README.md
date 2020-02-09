@@ -15,6 +15,11 @@ yarn install
 ### Starting
 ```
   yarn run dev (development environment)
-  yarn run server (json-server products.json)
 ```
 
+
+### API 
+
+```
+  http://www.mocky.io/v2/5e4020c63300006300b04d45
+```

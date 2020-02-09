@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable array-callback-return */
-import api from '../../service/api';
+import Axios from 'axios';
 import priceToNumber from '../../utils/priceToNumber';
 
 export const Types = {
@@ -107,10 +107,12 @@ export const Creators = {
   getProducts: () => {
     return async dispatch => {
       dispatch(Creators.initGetProducts());
+      const endpoint =
+        'http://www.mocky.io/v2/5e4020c63300006300b04d45';
       try {
-        const response = await api.get('/products');
+        const response = await Axios.put(endpoint);
         const { data } = response;
-        return dispatch(Creators.successGetProducts(data));
+        return dispatch(Creators.successGetProducts(data.products));
       } catch (error) {
         return dispatch(Creators.errorGetProducts());
       }
