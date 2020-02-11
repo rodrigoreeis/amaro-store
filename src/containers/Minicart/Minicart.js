@@ -1,8 +1,10 @@
 import React from 'react';
 import shortid from 'shortid';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useSelector } from 'react-redux';
+
+import useActions from '../../utils/useActions';
+
 import { Creators as OverlayActionsCreator } from '../../store/ducks/overlay';
 import { Creators as MinicartActionsCreator } from '../../store/ducks/minicart';
 
@@ -12,20 +14,28 @@ import Button from '../../components/Button';
 import priceToNumber from '../../utils/priceToNumber';
 import formatPrice from '../../utils/formatPrice';
 
-const Minicart = ({
-  products,
-  total,
-  quantity,
-  toggle,
-  overlayActions,
-  minicartActions,
-}) => {
-  const { toggleOverlay } = overlayActions;
-  const {
-    toggleMinicart,
-    removeFromCart,
-    updateAmount,
-  } = minicartActions;
+const Minicart = () => {
+  const toggle = useSelector(state => state.minicart.toggle);
+  const products = useSelector(state => state.minicart.data);
+  const quantity = useSelector(state =>
+    state.minicart.data.reduce(
+      (total, product) => total + product.amount,
+      0,
+    ),
+  );
+  const total = useSelector(state =>
+    formatPrice(
+      state.minicart.data.reduce(
+        (acc, product) =>
+          acc + (priceToNumber(product.price) * product.amount) / 100,
+        0,
+      ),
+    ),
+  );
+  const { toggleOverlay } = useActions(OverlayActionsCreator);
+  const { toggleMinicart, removeFromCart, updateAmount } = useActions(
+    MinicartActionsCreator,
+  );
 
   const handleCloseCart = () => {
     toggleMinicart(false);
@@ -146,28 +156,4 @@ const Minicart = ({
   );
 };
 
-const mapStateToProps = state => ({
-  toggle: state.minicart.toggle,
-  products: state.minicart.data,
-  quantity: state.minicart.data.reduce(
-    (total, product) => total + product.amount,
-    0,
-  ),
-  total: formatPrice(
-    state.minicart.data.reduce(
-      (total, product) =>
-        total + (priceToNumber(product.price) * product.amount) / 100,
-      0,
-    ),
-  ),
-});
-
-const mapDispatchToProps = dispatch => ({
-  minicartActions: bindActionCreators(
-    MinicartActionsCreator,
-    dispatch,
-  ),
-  overlayActions: bindActionCreators(OverlayActionsCreator, dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Minicart);
+export default Minicart;

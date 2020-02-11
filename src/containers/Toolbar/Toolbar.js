@@ -21,17 +21,13 @@ const Toolbar = ({ intro }) => {
   const overlay = useSelector(state => state.overlay.toolbar);
   const quantity = useSelector(state => state.products.data.length);
 
-  const filterActions = useActions(FilterActionsCreator);
-  const overlayActions = useActions(OverlayActionsCreator);
-  const productsActions = useActions(ProductsActionsCreator);
-
-  const { toggleFilter } = filterActions;
-  const { overlayToolBar } = overlayActions;
+  const { toggleFilter } = useActions(FilterActionsCreator);
+  const { overlayToolBar } = useActions(OverlayActionsCreator);
   const {
     orderByBestPrice,
     orderByBiggestPrice,
     orderByDiscount,
-  } = productsActions;
+  } = useActions(ProductsActionsCreator);
 
   const handleToggleFilters = () => {
     if (visible) {
