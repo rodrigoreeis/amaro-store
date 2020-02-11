@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useSelector } from 'react-redux';
+
+import useActions from '../../utils/useActions';
+
 import { Creators as OverlayActionsCreator } from '../../store/ducks/overlay';
 import { Creators as MinicartActionsCreator } from '../../store/ducks/minicart';
 
@@ -15,14 +17,16 @@ import CartIcon from '../../assets/icons/shopping-bag.svg';
 import Button from '../../components/Button';
 import Container from '../../layout/Container';
 
-const HeaderAmaro = ({
-  toolbar,
-  quantity,
-  minicartActions,
-  overlayActions,
-}) => {
-  const { toggleOverlay } = overlayActions;
-  const { toggleMinicart } = minicartActions;
+const HeaderAmaro = () => {
+  const toolbar = useSelector(state => state.overlay.toolbar);
+  const quantity = useSelector(state =>
+    state.minicart.data.reduce(
+      (total, product) => total + product.amount,
+      0,
+    ),
+  );
+  const { toggleOverlay } = useActions(OverlayActionsCreator);
+  const { toggleMinicart } = useActions(MinicartActionsCreator);
 
   const handleToggleMinicart = () => {
     toggleOverlay(true);
@@ -59,23 +63,4 @@ const HeaderAmaro = ({
   );
 };
 
-const mapStateToProps = state => ({
-  toolbar: state.overlay.toolbar,
-  quantity: state.minicart.data.reduce(
-    (total, product) => total + product.amount,
-    0,
-  ),
-});
-
-const mapDispatchToProps = dispatch => ({
-  minicartActions: bindActionCreators(
-    MinicartActionsCreator,
-    dispatch,
-  ),
-  overlayActions: bindActionCreators(OverlayActionsCreator, dispatch),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(HeaderAmaro);
+export default HeaderAmaro;

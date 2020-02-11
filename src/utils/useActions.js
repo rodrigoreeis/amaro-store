@@ -4,7 +4,6 @@ import { useMemo } from 'react';
 
 const useActions = (actions, deps) => {
   const dispatch = useDispatch();
-  console.log('dep', deps);
   return useMemo(
     () => {
       if (Array.isArray(actions)) {
