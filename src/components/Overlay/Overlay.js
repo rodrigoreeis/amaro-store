@@ -5,8 +5,10 @@ import {
   enableBodyScroll,
 } from 'body-scroll-lock';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useSelector } from 'react-redux';
+
+import useActions from '../../utils/useActions';
+
 import { Creators as FilterActionsCreator } from '../../store/ducks/filter';
 import { Creators as OverlayActionsCreator } from '../../store/ducks/overlay';
 import { Creators as QuickViewActionsCreator } from '../../store/ducks/quickview';
@@ -21,14 +23,17 @@ const Overlay = ({
   onKeyUp,
   ariaLabel,
   tabIndex,
-  toggle,
-  toolbar,
-  filterActions,
-  overlayActions,
-  quickViewActions,
-  minicartActions,
 }) => {
   const [targetElement, setTargetElement] = useState(null);
+
+  const toggle = useSelector(state => state.overlay.toggle);
+  const toolbar = useSelector(state => state.overlay.toolbar);
+
+  const filterActions = useActions(FilterActionsCreator);
+  const overlayActions = useActions(OverlayActionsCreator);
+  const quickViewActions = useActions(QuickViewActionsCreator);
+  const minicartActions = useActions(MinicartActionsCreator);
+
   const { toggleFilter } = filterActions;
   const { toggleOverlay, overlayToolBar } = overlayActions;
   const { toggleQuickView, sizeProductQuickView } = quickViewActions;
@@ -49,6 +54,7 @@ const Overlay = ({
       ? disableBodyScroll(targetElement)
       : enableBodyScroll(targetElement);
   }, [toggle || toolbar]);
+
   return (
     <div
       className={`am-overlay ${className} ${
@@ -65,22 +71,4 @@ const Overlay = ({
   );
 };
 
-const mapStateToProps = state => ({
-  toggle: state.overlay.toggle,
-  toolbar: state.overlay.toolbar,
-});
-
-const mapDispatchToProps = dispatch => ({
-  filterActions: bindActionCreators(FilterActionsCreator, dispatch),
-  overlayActions: bindActionCreators(OverlayActionsCreator, dispatch),
-  quickViewActions: bindActionCreators(
-    QuickViewActionsCreator,
-    dispatch,
-  ),
-  minicartActions: bindActionCreators(
-    MinicartActionsCreator,
-    dispatch,
-  ),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Overlay);
+export default Overlay;
