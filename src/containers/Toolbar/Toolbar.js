@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useSelector } from 'react-redux';
+
+import useActions from '../../utils/useActions';
 
 import { Creators as FilterActionsCreator } from '../../store/ducks/filter';
 import { Creators as OverlayActionsCreator } from '../../store/ducks/overlay';
@@ -13,16 +14,16 @@ import Container from '../../layout/Container';
 import Button from '../../components/Button';
 import FilterOptions from '../../components/FilterOptions';
 
-const Toolbar = ({
-  intro,
-  visible,
-  filterActions,
-  overlayActions,
-  productsActions,
-  quantity,
-  overlay,
-}) => {
+const Toolbar = ({ intro }) => {
   const [active, setActive] = useState(-1);
+
+  const visible = useSelector(state => state.filter);
+  const overlay = useSelector(state => state.overlay.toolbar);
+  const quantity = useSelector(state => state.products.data.length);
+
+  const filterActions = useActions(FilterActionsCreator);
+  const overlayActions = useActions(OverlayActionsCreator);
+  const productsActions = useActions(ProductsActionsCreator);
 
   const { toggleFilter } = filterActions;
   const { overlayToolBar } = overlayActions;
@@ -67,7 +68,10 @@ const Toolbar = ({
       >
         <nav className="am-toolbar__nav">
           <span className="am-toolbar__nav-itens">
-            <strong>{quantity}</strong>
+            <strong>
+              {quantity}
+              {` `}
+            </strong>
             itens
           </span>
           <div className="am-toolbar__nav-filter">
@@ -94,19 +98,4 @@ const Toolbar = ({
   );
 };
 
-const mapStateToProps = state => ({
-  visible: state.filter,
-  overlay: state.overlay.toolbar,
-  quantity: state.products.data.length,
-});
-
-const mapDispatchToProps = dispatch => ({
-  filterActions: bindActionCreators(FilterActionsCreator, dispatch),
-  overlayActions: bindActionCreators(OverlayActionsCreator, dispatch),
-  productsActions: bindActionCreators(
-    ProductsActionsCreator,
-    dispatch,
-  ),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Toolbar);
+export default Toolbar;
