@@ -37,7 +37,6 @@ const ProductsShelf = ({ content }) => {
             discount_percentage: discount,
             bullet_color: bulletColor,
           } = product;
-
           return (
             <Shelf
               key={shortid.generate()}
