@@ -22,8 +22,9 @@ export default function reducer(state = INITIAL_STATE, action) {
       };
     case Types.ADD_TO_CART:
       const productIndex = state.data.findIndex(
-        (test => test.name === action.product.name) &&
-          (test => test.size === action.product.size),
+        test =>
+          test.name === action.product.name &&
+          test.size === action.product.size,
       );
       if (productIndex === -1) {
         return {
