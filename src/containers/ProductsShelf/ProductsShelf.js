@@ -1,9 +1,6 @@
 import React from 'react';
 import shortid from 'shortid';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
 import useActions from '../../utils/useActions';
 
 import { Creators as QuickViewActionsCreator } from '../../store/ducks/quickview';
@@ -14,13 +11,11 @@ import '../../styles/containers/ProductsShelf.scss';
 import Shelf from '../../components/Shelf';
 import Container from '../../layout/Container';
 
-const ProductsShelf = ({
-  content,
-  quickViewActions,
-  overlayActions,
-}) => {
-  const { productQuickView, toggleQuickView } = quickViewActions;
-  const { toggleOverlay } = overlayActions;
+const ProductsShelf = ({ content }) => {
+  const { productQuickView, toggleQuickView } = useActions(
+    QuickViewActionsCreator,
+  );
+  const { toggleOverlay } = useActions(OverlayActionsCreator);
 
   const handleOpenProduct = product => {
     productQuickView(product);
@@ -63,12 +58,4 @@ const ProductsShelf = ({
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  overlayActions: bindActionCreators(OverlayActionsCreator, dispatch),
-  quickViewActions: bindActionCreators(
-    QuickViewActionsCreator,
-    dispatch,
-  ),
-});
-
-export default connect(null, mapDispatchToProps)(ProductsShelf);
+export default ProductsShelf;
