@@ -1,13 +1,16 @@
 import React from 'react';
 
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import '../../styles/containers/QuickView.scss';
 
 import Modal from '../../components/Modal';
 import ProductInfo from '../../components/ProductInfo';
 
-const QuickView = ({ toggle, product = {} }) => {
+const QuickView = () => {
+  const toggle = useSelector(state => state.quickview.toggle);
+  const product = useSelector(state => state.quickview.data);
+
   const {
     name,
     image,
@@ -19,6 +22,7 @@ const QuickView = ({ toggle, product = {} }) => {
     discount_percentage: discount,
     bullet_color: bulletColor,
   } = product;
+
   return (
     <Modal className={`am-quick-view ${toggle ? 'is--active' : ''}`}>
       <ProductInfo
@@ -37,9 +41,4 @@ const QuickView = ({ toggle, product = {} }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  toggle: state.quickview.toggle,
-  product: state.quickview.data,
-});
-
-export default connect(mapStateToProps, null)(QuickView);
+export default QuickView;
