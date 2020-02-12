@@ -34,7 +34,8 @@ yarn install
 ## Introduction 
 
 Project made for study to have a solid familiarity with React + Redux.
-![Try](https://amaro-store.netlify.com/)
+
+[Try](https://amaro-store.netlify.com/)
 
 ![https://amaro-store.netlify.com/](./amaro-store.png)
 
