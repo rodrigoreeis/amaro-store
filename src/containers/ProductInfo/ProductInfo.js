@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useSelector } from 'react-redux';
+
+import useActions from '../../utils/useActions';
+
 import { Creators as QuickViewActionsCreator } from '../../store/ducks/quickview';
 import { Creators as MinicartActionsCreator } from '../../store/ducks/minicart';
 
 import '../../styles/containers/ProductInfo.scss';
 
-import Button from '../Button';
-import SizeBullets from '../SizeBullets';
+import Button from '../../components/Button';
+import SizeBullets from '../../components/SizeBullets';
 
 const ProductInfo = ({
   image,
@@ -21,20 +23,21 @@ const ProductInfo = ({
   colorName,
   sizes,
   product,
-  sizeSelected,
-  sizeError,
-  quickviewActions,
-  minicartActions,
 }) => {
-  const { toggleMinicart, addToCart } = minicartActions;
+  const [active, setActive] = useState(-1);
+
+  const sizeSelected = useSelector(state => state.quickview.size);
+  const sizeError = useSelector(state => state.quickview.sizeError);
+
+  const { toggleMinicart, addToCart } = useActions(
+    MinicartActionsCreator,
+  );
   const {
     sizeProductQuickView,
     errorSizeBullets,
     toggleQuickView,
-  } = quickviewActions;
+  } = useActions(QuickViewActionsCreator);
 
-  const [active, setActive] = useState(-1);
-  // const [currentProduct, setCurrentProduct] = useState();
   const handleSizeSelected = ev => {
     const { index } = ev.target.dataset;
     const { value } = ev.target;
@@ -138,23 +141,4 @@ const ProductInfo = ({
   );
 };
 
-const mapStateToProps = state => ({
-  sizeSelected: state.quickview.size,
-  sizeError: state.quickview.sizeError,
-});
-
-const mapDispatchToProps = dispatch => ({
-  quickviewActions: bindActionCreators(
-    QuickViewActionsCreator,
-    dispatch,
-  ),
-  minicartActions: bindActionCreators(
-    MinicartActionsCreator,
-    dispatch,
-  ),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProductInfo);
+export default ProductInfo;

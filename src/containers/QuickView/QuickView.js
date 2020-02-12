@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import '../../styles/containers/QuickView.scss';
 
 import Modal from '../../components/Modal';
-import ProductInfo from '../../components/ProductInfo';
+import ProductInfo from '../ProductInfo';
 
 const QuickView = () => {
   const toggle = useSelector(state => state.quickview.toggle);

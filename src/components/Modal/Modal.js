@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import useActions from '../../utils/useActions';
+
 import { Creators as OverlayActionsCreator } from '../../store/ducks/overlay';
 import { Creators as QuickViewActionsCreator } from '../../store/ducks/quickview';
 
@@ -9,18 +9,13 @@ import '../../styles/components/Modal.scss';
 
 import Button from '../Button';
 
-const Modal = ({
-  children,
-  className,
-  overlayActions,
-  quickViewActions,
-}) => {
-  const { toggleOverlay } = overlayActions;
+const Modal = ({ children, className }) => {
+  const { toggleOverlay } = useActions(OverlayActionsCreator);
   const {
     toggleQuickView,
     sizeProductQuickView,
     errorSizeBullets,
-  } = quickViewActions;
+  } = useActions(QuickViewActionsCreator);
 
   const handleClose = () => {
     toggleOverlay(false);
@@ -39,12 +34,4 @@ const Modal = ({
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  overlayActions: bindActionCreators(OverlayActionsCreator, dispatch),
-  quickViewActions: bindActionCreators(
-    QuickViewActionsCreator,
-    dispatch,
-  ),
-});
-
-export default connect(null, mapDispatchToProps)(Modal);
+export default Modal;

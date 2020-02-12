@@ -48,6 +48,7 @@
   }
   &__item{
     display: flex;
+    position: relative;
     @include rem(font-size, $font-normalest);
     @include rem(padding, $gap-medium $gap-normal);
     @include rem(border-bottom, 1px solid $color-gray);

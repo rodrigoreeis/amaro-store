@@ -1,15 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import shortid from 'shortid';
 
 import '../../styles/components/FilterOptions.scss';
 
-const FilterOptions = ({
-  toggle,
-  onClick,
-  onKeyPress,
-  activeIndex,
-}) => {
+const FilterOptions = ({ onClick, onKeyPress, activeIndex }) => {
+  const toggle = useSelector(state => state.filter);
+
   const listItem = [
     {
       filter: 'BEST_PRICE',
@@ -37,8 +34,7 @@ const FilterOptions = ({
           data-value={filter}
           data-index={index}
           className={`am-filter-options__item ${
-            // eslint-disable-next-line eqeqeq
-            activeIndex == index ? 'is--active' : ''
+            +activeIndex === index ? 'is--active' : ''
           }`}
         >
           {name}
@@ -48,6 +44,4 @@ const FilterOptions = ({
   );
 };
 
-export default connect(state => ({
-  toggle: state.filter,
-}))(FilterOptions);
+export default FilterOptions;

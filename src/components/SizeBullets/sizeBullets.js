@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import shortid from 'shortid';
 
 import '../../styles/components/SizeBullets.scss';
@@ -9,10 +9,11 @@ import Button from '../Button';
 const SizeBullets = ({
   className = '',
   sizes = [],
-  sizeSelected,
   activeIndex,
   onClick,
 }) => {
+  const sizeSelected = useSelector(state => state.quickview.size);
+
   return (
     <div className={`am-sizes ${className}`}>
       {sizes.map(({ size, available }, index) => (
@@ -23,8 +24,9 @@ const SizeBullets = ({
           data-index={index}
           value={size}
           className={`am-sizes__bullet ${
-            // eslint-disable-next-line eqeqeq
-            activeIndex == index && sizeSelected ? 'is--selected' : ''
+            +activeIndex === index && sizeSelected
+              ? 'is--selected'
+              : ''
           }`}
         >
           {size}
@@ -34,6 +36,4 @@ const SizeBullets = ({
   );
 };
 
-export default connect(state => ({
-  sizeSelected: state.quickview.size,
-}))(SizeBullets);
+export default SizeBullets;

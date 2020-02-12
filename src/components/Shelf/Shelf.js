@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
 import '../../styles/components/Shelf.scss';
 
 const Shelf = ({
@@ -12,7 +11,6 @@ const Shelf = ({
   color,
   colorName,
   onClick,
-  // url,
 }) => {
   return (
     <div className="am-shelf">
