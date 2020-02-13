@@ -21,6 +21,7 @@
     height: 100vh;
     top: 0;
     left: 0;
+    transition: transform 300ms ease-in-out;
     transform: translateX(100%);
   }
   &.is--active {
