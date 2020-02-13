@@ -1,6 +1,6 @@
-### Amaro Store
+# Amaro Store
 
-> This project has basic features of any e-commerce such as ordering products quickview of the product and minicart with all features.
+This project has basic features of any e-commerce such as ordering products quickview of the product and minicart with all features.
 
 ### Installing
  
@@ -35,6 +35,7 @@ yarn install
 
 Project made for study to have a solid familiarity with React + Redux.
 
+[Try](https://amaro-store.netlify.com/)
 
 ![https://amaro-store.netlify.com/](./amaro-store.png)
 
