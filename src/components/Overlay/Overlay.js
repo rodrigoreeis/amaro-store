@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 
 import {
   disableBodyScroll,
@@ -71,4 +71,4 @@ const Overlay = ({
   );
 };
 
-export default Overlay;
+export default memo(Overlay);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import shortid from 'shortid';
 
 import { useSelector } from 'react-redux';
@@ -156,4 +156,4 @@ const Minicart = () => {
   );
 };
 
-export default Minicart;
+export default memo(Minicart);
